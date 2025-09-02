@@ -1,0 +1,121 @@
+@import "tailwindcss";
+
+/* Hide scrollbar for horizontal scrolling */
+.scrollbar-hide {
+  -ms-overflow-style: none;  /* Internet Explorer 10+ */
+  scrollbar-width: none;  /* Firefox */
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;  /* Safari and Chrome */
+}
+
+/* Infinite scrolling animation */
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-scroll {
+  animation: scroll 30s linear infinite;
+}
+
+.animate-scroll:hover {
+  animation-play-state: paused;
+}
+
+/* Timeline Animation Styles */
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInLeft {
+  0% {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes fadeInRight {
+  0% {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes scaleIn {
+  0% {
+    opacity: 0;
+    transform: scale(0);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes drawLine {
+  0% {
+    height: 0;
+    opacity: 0;
+  }
+  100% {
+    height: 100%;
+    opacity: 1;
+  }
+}
+
+/* Timeline specific animations */
+.timeline-fade-in {
+  animation: fadeInUp 0.8s ease-out forwards;
+}
+
+.timeline-fade-left {
+  animation: fadeInLeft 0.6s ease-out forwards;
+}
+
+.timeline-fade-right {
+  animation: fadeInRight 0.7s ease-out forwards;
+}
+
+.timeline-scale-in {
+  animation: scaleIn 0.5s ease-out forwards;
+}
+
+.timeline-draw-line {
+  animation: drawLine 0.7s ease-out forwards;
+}
+
+/* Smooth scroll behavior */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Enhanced hover effects for timeline items */
+.timeline-item:hover {
+  transform: translateY(-2px);
+  transition: transform 0.3s ease-out;
+}
+
+.timeline-dot:hover {
+  transform: scale(1.2);
+  transition: transform 0.3s ease-out;
+}
