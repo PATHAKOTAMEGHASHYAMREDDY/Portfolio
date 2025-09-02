@@ -2,6 +2,9 @@ import React, { useState } from "react";
 import { Vortex } from "../components/ui/vortex";
 
 export function VortexContact() {
+  // Get backend URL from environment variables (Vite uses import.meta.env)
+  const backendUrl = import.meta.env.VITE_BACKEND_URL || 'http://localhost:5000';
+  
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -33,7 +36,7 @@ export function VortexContact() {
     setStatusMessage('');
 
     try {
-      const response = await fetch('http://localhost:5000/api/send-email', {
+      const response = await fetch(`${backendUrl}/api/send-email`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -67,9 +70,9 @@ export function VortexContact() {
   };
 
   return (
-    <section id="contact" className="w-full py-10 md:py-20">
+    <section id="contact" className="w-full py-10 md:py-20 lg:pb-0">
       <div className="w-full mx-auto">
-        <div className="min-h-[100vh] md:min-h-[80vh] lg:h-[50rem] rounded-none md:rounded-md overflow-hidden mx-0 md:mx-8">
+        <div className="min-h-[100vh] md:min-h-[80vh] lg:min-h-[50rem] rounded-none md:rounded-md overflow-hidden mx-0 md:mx-8">
           <Vortex
             backgroundColor="black"
             className="flex items-center flex-col justify-center px-4 md:px-8 lg:px-16 py-8 md:py-12 w-full h-full"
@@ -85,16 +88,6 @@ export function VortexContact() {
               </div>
               
               <form onSubmit={handleSubmit} className="space-y-4 md:space-y-6 max-w-2xl mx-auto">
-                {/* Status Message */}
-                {submitStatus && (
-                  <div className={`p-4 rounded-lg text-center ${
-                    submitStatus === 'success' 
-                      ? 'bg-green-500/20 border border-green-500/30 text-green-300' 
-                      : 'bg-red-500/20 border border-red-500/30 text-red-300'
-                  }`}>
-                    {statusMessage}
-                  </div>
-                )}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
                   <div>
                     <label htmlFor="name" className="block text-white text-sm md:text-base font-medium mb-2">
@@ -183,6 +176,76 @@ export function VortexContact() {
           </Vortex>
         </div>
       </div>
+
+      {/* Popup Modal for Success/Error Messages */}
+      {submitStatus && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
+          <div className={`relative max-w-md w-full p-6 rounded-xl shadow-2xl border ${
+            submitStatus === 'success' 
+              ? 'bg-green-50 border-green-200 text-green-800' 
+              : 'bg-red-50 border-red-200 text-red-800'
+          }`}>
+            {/* Close Button */}
+            <button
+              onClick={() => {
+                setSubmitStatus(null);
+                setStatusMessage('');
+              }}
+              className="absolute top-3 right-3 text-gray-400 hover:text-gray-600 transition-colors"
+            >
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+            
+            {/* Icon */}
+            <div className="flex items-center justify-center w-12 h-12 mx-auto mb-4 rounded-full ${
+              submitStatus === 'success' ? 'bg-green-100' : 'bg-red-100'
+            }">
+              {submitStatus === 'success' ? (
+                <svg className="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                </svg>
+              ) : (
+                <svg className="w-6 h-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              )}
+            </div>
+            
+            {/* Message */}
+            <div className="text-center">
+              <h3 className={`text-lg font-semibold mb-2 ${
+                submitStatus === 'success' ? 'text-green-800' : 'text-red-800'
+              }`}>
+                {submitStatus === 'success' ? 'Success!' : 'Error'}
+              </h3>
+              <p className={`text-sm leading-relaxed ${
+                submitStatus === 'success' ? 'text-green-700' : 'text-red-700'
+              }`}>
+                {statusMessage}
+              </p>
+            </div>
+            
+            {/* OK Button */}
+            <div className="mt-6 text-center">
+              <button
+                onClick={() => {
+                  setSubmitStatus(null);
+                  setStatusMessage('');
+                }}
+                className={`px-6 py-2 rounded-lg font-medium transition-colors ${
+                  submitStatus === 'success'
+                    ? 'bg-green-600 hover:bg-green-700 text-white'
+                    : 'bg-red-600 hover:bg-red-700 text-white'
+                }`}
+              >
+                OK
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </section>
   );
 }
