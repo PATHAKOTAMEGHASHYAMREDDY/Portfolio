@@ -28,7 +28,7 @@ export const AboutSection = () => {
               viewport={{ once: true }}
               className="flex justify-center lg:justify-start"
             >
-              <div className="w-full max-w-md lg:max-w-lg">
+              <div className="w-full max-w-[280px] lg:max-w-sm">
                 <Lottie 
                   animationData={studentAnimation} 
                   loop={true} 

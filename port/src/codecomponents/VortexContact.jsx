@@ -72,7 +72,7 @@ export function VortexContact() {
   return (
     <section id="contact" className="w-full py-10 md:py-20 lg:pb-0">
       <div className="w-full mx-auto">
-        <div className="min-h-[100vh] md:min-h-[80vh] lg:min-h-[50rem] rounded-none md:rounded-md overflow-hidden mx-0 md:mx-8">
+        <div className="min-h-[100vh] md:min-h-[80vh] lg:min-h-[50rem] rounded-none overflow-hidden">
           <Vortex
             backgroundColor="black"
             className="flex items-center flex-col justify-center px-4 md:px-8 lg:px-16 py-8 md:py-12 w-full h-full"

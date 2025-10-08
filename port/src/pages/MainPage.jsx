@@ -6,6 +6,7 @@ import { StickyScrollRevealDemo } from '../codecomponents/StickyScrollReveal'
 import { TimelineEducation } from '../codecomponents/TimelineEducation'
 import { VortexContact } from '../codecomponents/VortexContact'
 import { Footer } from '../components/ui/Footer'
+import { ScrollToTop } from '../components/ui/ScrollToTop'
 
 function MainPage() {
   return (
@@ -17,6 +18,7 @@ function MainPage() {
         <TimelineEducation/>
         <VortexContact/>
         <Footer/>
+        <ScrollToTop/>
     </div>
   )
 }

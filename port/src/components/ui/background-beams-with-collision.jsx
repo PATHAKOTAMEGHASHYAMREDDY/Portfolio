@@ -7,6 +7,47 @@ import shyam from "../../assets/images/shyam.jpg";
 export const BackgroundBeamsWithCollision = ({ children, className }) => {
   const containerRef = useRef(null);
   const parentRef = useRef(null);
+  const [activeSection, setActiveSection] = useState("");
+  const [isDarkBackground, setIsDarkBackground] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const sections = ["about", "skills", "projects", "education", "contact"];
+      const scrollPosition = window.scrollY + window.innerHeight / 3;
+
+      // Check active section
+      for (const sectionId of sections) {
+        const section = document.getElementById(sectionId);
+        if (section) {
+          const { offsetTop, offsetHeight } = section;
+          if (
+            scrollPosition >= offsetTop &&
+            scrollPosition < offsetTop + offsetHeight
+          ) {
+            setActiveSection(sectionId);
+            break;
+          }
+        }
+      }
+
+      // Check if navbar is physically over the contact section (black background)
+      const contactSection = document.getElementById("contact");
+      if (contactSection) {
+        const contactRect = contactSection.getBoundingClientRect();
+        const navbarPosition = 40; // Approximate navbar top position (top-4 md:top-6)
+
+        // Navbar text should be white when contact section's top is above navbar
+        setIsDarkBackground(
+          contactRect.top <= navbarPosition &&
+            contactRect.bottom > navbarPosition
+        );
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    handleScroll(); // Initial check
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   const beams = [
     {
@@ -65,8 +106,8 @@ export const BackgroundBeamsWithCollision = ({ children, className }) => {
     <div
       ref={parentRef}
       className={cn(
-        "h-96 md:h-[40rem] bg-gradient-to-b from-white to-neutral-100 dark:from-neutral-950 dark:to-neutral-800 relative flex items-center w-full justify-center overflow-hidden",
-        // h-screen if you want bigger
+        "h-[110vh] sm:h-[100vh] md:h-[40rem] bg-gradient-to-b from-white to-neutral-100 dark:from-neutral-950 dark:to-neutral-800 relative flex items-center w-full justify-center overflow-hidden",
+        // Increased height on mobile (110vh), normal on desktop (40rem)
         className
       )}
     >
@@ -79,11 +120,21 @@ export const BackgroundBeamsWithCollision = ({ children, className }) => {
         />
       ))}
       <div className="absolute inset-0 flex flex-col md:flex-row items-center justify-center md:justify-between px-6 md:px-20 z-10 gap-6 md:gap-0">
-        <div className="flex flex-col items-center md:items-start gap-2 text-center md:text-left">
+        <div className="flex flex-col items-center md:items-start gap-2 text-center md:text-left max-w-2xl">
           <TypewriterEffect
             text="PATHAKOTA MEGHA SHYAM REDDY"
             className="text-2xl sm:text-3xl md:text-5xl lg:text-7xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-sky-500 via-blue-500 to-purple-500 uppercase leading-tight"
           />
+          <div className="mt-4 mb-3 space-y-2">
+            <p className="text-base sm:text-lg md:text-xl font-semibold text-gray-700 dark:text-gray-200">
+              Full Stack Developer • AI & ML Developer • Tech Innovator
+            </p>
+            <p className="text-sm sm:text-base md:text-lg text-gray-600 dark:text-gray-300 leading-relaxed">
+              Welcome to my digital portfolio where innovation meets expertise.
+              Let's explore the intersection of technology and creativity
+              together.
+            </p>
+          </div>
           <div className="flex gap-3 md:gap-4 mt-2">
             {/* LinkedIn Icon */}
             <a
@@ -170,14 +221,26 @@ export const BackgroundBeamsWithCollision = ({ children, className }) => {
         }}
       ></div>
       {/* Floating Navigation Bar */}
-      <nav className="fixed top-4 md:top-6 left-1/2 z-50 -translate-x-1/2 bg-white/30 dark:bg-neutral-900/40 backdrop-blur-md rounded-full shadow-lg px-4 md:px-16 py-2 md:py-4 flex gap-4 md:gap-16 border border-white/20 dark:border-neutral-800/40 max-w-[95vw] md:min-w-[600px] justify-center overflow-x-auto">
+      <nav className="fixed top-3 md:top-6 left-1/2 z-50 -translate-x-1/2 bg-white/30 dark:bg-neutral-900/80 backdrop-blur-md rounded-full shadow-lg px-4 sm:px-8 md:px-12 lg:px-16 py-2 md:py-3.5 flex items-center gap-3 sm:gap-6 md:gap-10 lg:gap-14 border border-white/30 dark:border-neutral-800/50 max-w-[95vw] sm:max-w-[85vw] md:max-w-none md:min-w-[650px] lg:min-w-[750px] justify-center overflow-x-auto scrollbar-hide">
+        <span className="font-bold text-sm sm:text-base md:text-lg lg:text-xl flex-shrink-0 bg-clip-text text-transparent bg-gradient-to-r from-sky-500 via-blue-500 to-purple-500">
+          PM
+        </span>
+        <div className="h-3 md:h-4 w-px bg-gray-300 dark:bg-gray-600 flex-shrink-0 hidden sm:block"></div>
         <a
           href="#about"
           onClick={(e) => {
             e.preventDefault();
-            document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' });
+            document
+              .getElementById("about")
+              ?.scrollIntoView({ behavior: "smooth" });
           }}
-          className="font-semibold text-sm md:text-base text-gray-700 dark:text-gray-200 hover:text-blue-500 transition-colors cursor-pointer whitespace-nowrap"
+          className={`font-semibold text-xs sm:text-sm md:text-base transition-all cursor-pointer whitespace-nowrap flex-shrink-0 ${
+            activeSection === "about"
+              ? "text-blue-500 scale-110"
+              : isDarkBackground
+              ? "text-white hover:text-blue-400"
+              : "text-gray-700 dark:text-gray-200 hover:text-blue-500"
+          }`}
         >
           About
         </a>
@@ -185,9 +248,17 @@ export const BackgroundBeamsWithCollision = ({ children, className }) => {
           href="#skills"
           onClick={(e) => {
             e.preventDefault();
-            document.getElementById('skills')?.scrollIntoView({ behavior: 'smooth' });
+            document
+              .getElementById("skills")
+              ?.scrollIntoView({ behavior: "smooth" });
           }}
-          className="font-semibold text-sm md:text-base text-gray-700 dark:text-gray-200 hover:text-blue-500 transition-colors cursor-pointer whitespace-nowrap"
+          className={`font-semibold text-xs sm:text-sm md:text-base transition-all cursor-pointer whitespace-nowrap flex-shrink-0 ${
+            activeSection === "skills"
+              ? "text-blue-500 scale-110"
+              : isDarkBackground
+              ? "text-white hover:text-blue-400"
+              : "text-gray-700 dark:text-gray-200 hover:text-blue-500"
+          }`}
         >
           Skills
         </a>
@@ -195,9 +266,17 @@ export const BackgroundBeamsWithCollision = ({ children, className }) => {
           href="#projects"
           onClick={(e) => {
             e.preventDefault();
-            document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' });
+            document
+              .getElementById("projects")
+              ?.scrollIntoView({ behavior: "smooth" });
           }}
-          className="font-semibold text-sm md:text-base text-gray-700 dark:text-gray-200 hover:text-blue-500 transition-colors cursor-pointer whitespace-nowrap"
+          className={`font-semibold text-xs sm:text-sm md:text-base transition-all cursor-pointer whitespace-nowrap flex-shrink-0 ${
+            activeSection === "projects"
+              ? "text-blue-500 scale-110"
+              : isDarkBackground
+              ? "text-white hover:text-blue-400"
+              : "text-gray-700 dark:text-gray-200 hover:text-blue-500"
+          }`}
         >
           Projects
         </a>
@@ -205,9 +284,17 @@ export const BackgroundBeamsWithCollision = ({ children, className }) => {
           href="#education"
           onClick={(e) => {
             e.preventDefault();
-            document.getElementById('education')?.scrollIntoView({ behavior: 'smooth' });
+            document
+              .getElementById("education")
+              ?.scrollIntoView({ behavior: "smooth" });
           }}
-          className="font-semibold text-sm md:text-base text-gray-700 dark:text-gray-200 hover:text-blue-500 transition-colors cursor-pointer whitespace-nowrap"
+          className={`font-semibold text-xs sm:text-sm md:text-base transition-all cursor-pointer whitespace-nowrap flex-shrink-0 ${
+            activeSection === "education"
+              ? "text-blue-500 scale-110"
+              : isDarkBackground
+              ? "text-white hover:text-blue-400"
+              : "text-gray-700 dark:text-gray-200 hover:text-blue-500"
+          }`}
         >
           Education
         </a>
@@ -215,9 +302,17 @@ export const BackgroundBeamsWithCollision = ({ children, className }) => {
           href="#contact"
           onClick={(e) => {
             e.preventDefault();
-            document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
+            document
+              .getElementById("contact")
+              ?.scrollIntoView({ behavior: "smooth" });
           }}
-          className="font-semibold text-sm md:text-base text-gray-700 dark:text-gray-200 hover:text-blue-500 transition-colors cursor-pointer whitespace-nowrap"
+          className={`font-semibold text-xs sm:text-sm md:text-base transition-all cursor-pointer whitespace-nowrap flex-shrink-0 ${
+            activeSection === "contact"
+              ? "text-blue-500 scale-110"
+              : isDarkBackground
+              ? "text-white hover:text-blue-400"
+              : "text-gray-700 dark:text-gray-200 hover:text-blue-500"
+          }`}
         >
           Contact
         </a>
