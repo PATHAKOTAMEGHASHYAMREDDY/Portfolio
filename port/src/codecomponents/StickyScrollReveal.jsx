@@ -28,7 +28,7 @@ const content = [
         <div className="p-4 bg-white flex-shrink-0">
           <div className="flex gap-3 justify-center">
             <a
-              href="https://github.com/Springboard-Internship-2025/Development-of-a-Dynamic-Ride-Sharing-and-Carpooling-Platform_August_2025"
+              href="https://github.com/PATHAKOTAMEGHASHYAMREDDY/Dynamic_CarPooling"
               target="_blank"
               rel="noopener noreferrer"
               className="bg-gray-800 hover:bg-gray-900 text-white px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 flex items-center gap-2"
@@ -39,7 +39,7 @@ const content = [
               GitHub
             </a>
             <a
-              href="https://dynamic-car-pooling-fe.vercel.app/"
+              href="https://carpooling-nu.vercel.app/"
               target="_blank"
               rel="noopener noreferrer"
               className="bg-emerald-500 hover:bg-emerald-600 text-white px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 flex items-center gap-2"
