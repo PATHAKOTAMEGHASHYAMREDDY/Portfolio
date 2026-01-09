@@ -7,8 +7,10 @@ export const SkillsSection = () => {
   const slugs = [
     "java",
     "javascript",
+    "typescript",
     "python",
     "react",
+    "angular",
     "html5",
     "css3",
     "tailwindcss",
@@ -17,12 +19,15 @@ export const SkillsSection = () => {
     "express",
     "postgresql",
     "mongodb",
+    "mysql",
     "git",
     "github",
     "docker",
     "maven",
     "npm",
     "vercel",
+    "railway",
+    "GraphQl",
   ];
 
   const images = slugs.map((slug) => `https://cdn.simpleicons.org/${slug}`);
