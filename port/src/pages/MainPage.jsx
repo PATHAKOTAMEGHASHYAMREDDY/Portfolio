@@ -2,6 +2,7 @@ import React from 'react'
 import { BackgroundBeamsWithCollisionDemo } from '../codecomponents/BackgroundBeamsWithCollisionDemo'
 import { AboutSection } from '../components/ui/AboutSection'
 import { SkillsSection } from '../components/ui/SkillsSection'
+import { ExperienceDemo } from '../codecomponents/ExperienceDemo'
 import { StickyScrollRevealDemo } from '../codecomponents/StickyScrollReveal'
 import { TimelineEducation } from '../codecomponents/TimelineEducation'
 import { VortexContact } from '../codecomponents/VortexContact'
@@ -14,6 +15,7 @@ function MainPage() {
         <BackgroundBeamsWithCollisionDemo/>
         <AboutSection/>
         <SkillsSection/>
+        <ExperienceDemo/>
         <StickyScrollRevealDemo/>
         <TimelineEducation/>
         <VortexContact/>
